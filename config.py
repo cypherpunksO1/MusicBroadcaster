@@ -1,3 +1,7 @@
+api_id = ...
+api_hash = ''
+number = ''
+
 songs = ['https://ruo.morsmusic.org/load/1781414392/dora_-_Dora_dura_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/683113646/dora_-_Poshlyu_ego_na_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/1608627402/dora_MJEJJBI_BJEJJBI_-_Ne_ispravlyus_(musmore.com).mp3',
@@ -47,7 +51,3 @@ songs = ['https://ruo.morsmusic.org/load/1781414392/dora_-_Dora_dura_(musmore.co
          'https://ruo.morsmusic.org/load/1079417799/Dora_-_Stop-slovo_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/1968385262/Dora_-_Mama_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/1715424280/Yanix_Dora_-_Vne_Zony_(musmore.com).mp3']
-
-api_id = ...
-api_hash = ''
-number = ''
