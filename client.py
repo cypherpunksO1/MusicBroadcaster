@@ -17,9 +17,9 @@ import time
 from config import songs, api_id, api_hash, number
 
 # Off logging.
-for name, logger in logging.root.manager.loggerDict.items():
-    if name.startswith('pyrogram'):
-        logger.setLevel(logging.WARNING)
+# for name, logger in logging.root.manager.loggerDict.items():
+# if name.startswith('pyrogram'):
+#        logger.setLevel(logging.WARNING)
 
 app = Client(number,
              api_id=api_id,
