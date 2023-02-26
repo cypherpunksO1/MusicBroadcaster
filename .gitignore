@@ -34,7 +34,6 @@ __pycache__
 
 *.session
 *.session-journal
-*.txt
 
 # Gradle
 .idea/**/gradle.xml

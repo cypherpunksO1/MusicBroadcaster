@@ -1,0 +1,5 @@
+requests==2.28.1
+beautifulsoup4==4.11.1
+mutagen==1.46.0
+Pyrogram==2.0.57
+py-tgcalls==0.9.7
