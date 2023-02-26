@@ -1,7 +1,8 @@
-api_id = ...
-api_hash = ''
-number = ''
+api_id = 1234556
+api_hash = "24a235...c726f2"
+number = "+79008007060"
 
+# Links on .mp3 files.
 songs = ['https://ruo.morsmusic.org/load/1781414392/dora_-_Dora_dura_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/683113646/dora_-_Poshlyu_ego_na_(musmore.com).mp3',
          'https://ruo.morsmusic.org/load/1608627402/dora_MJEJJBI_BJEJJBI_-_Ne_ispravlyus_(musmore.com).mp3',

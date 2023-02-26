@@ -11,15 +11,9 @@ from pytgcalls import idle
 from pytgcalls.types import AudioPiped
 
 import asyncio
-import logging
 import time
 
 from config import songs, api_id, api_hash, number
-
-# Off logging.
-# for name, logger in logging.root.manager.loggerDict.items():
-# if name.startswith('pyrogram'):
-#        logger.setLevel(logging.WARNING)
 
 app = Client(number,
              api_id=api_id,
@@ -41,22 +35,8 @@ def next_track():
     return now_song_index
 
 
-def cooldown_decorator(func):
-    global last_message_time
-
-    def wrapper(*args, **kwargs):
-        global last_message_time
-        if round(time.time() - last_message_time) > 10:
-            func_result = func(*args, **kwargs)
-            return func_result
-        return None
-
-    return wrapper
-
-
-@cooldown_decorator
 async def commands_handler(client, message: Message):
-    global last_song_play_time
+    global last_song_play_time, now_song_index
 
     async def send_message(_message: str) -> None:
         """Отправка сообщения в чат."""
@@ -65,7 +45,7 @@ async def commands_handler(client, message: Message):
                                text=_message,
                                parse_mode=ParseMode.MARKDOWN)
 
-    async def play_song(_song_id: int = 0) -> None:
+    async def play_song(_song_id: int = 0, notification: bool = True) -> None:
         """Play song in videochat."""
 
         global last_song_play_time
@@ -76,7 +56,8 @@ async def commands_handler(client, message: Message):
 
             # Cooldown
             if interval > 150 or message.from_user.id == me.id:
-                await send_message('🎧 `/song {}`'.format(_song_id))
+                if notification:
+                    await send_message('🎧 `/song {}`'.format(_song_id))
 
                 # Replay songs
                 await tg_calls_app.leave_group_call(message.chat.id)
@@ -105,7 +86,12 @@ async def commands_handler(client, message: Message):
 
                 # Play next song
                 await asyncio.sleep(song_length)
-                await play_song(next_track())
+
+                _track_index = next_track()
+                if _track_index >= len(songs):
+                    _track_index = 0
+
+                await play_song(track_index, notification=False)
             else:
                 await send_message('📻 Повторите запрос через {} секунд.'.format(180 - interval))
 
@@ -130,13 +116,15 @@ async def commands_handler(client, message: Message):
             )
             last_song_play_time = time.time()
 
-    if message.text:
+    if message.text and round(time.time() - last_message_time) > 10:
         if message.text.startswith('/stream'):
             # Run stream.
             try:
+                now_song_index = 0
                 await send_message('🎸 Запуск трансляции\n\n'
                                    '🎧 `/song {}`'.format(now_song_index + 1))
                 await tg_calls_app.start()
+                await play_song()
 
             except pytgcalls.exceptions.PyTgCallsAlreadyRunning:
                 ...
@@ -146,8 +134,6 @@ async def commands_handler(client, message: Message):
 
             except pytgcalls.exceptions.NoActiveGroupCall:
                 await send_message('📞 Запустите групповой видеочат.')
-
-            await play_song()
 
         elif message.text == '/next':
             # Next song.
